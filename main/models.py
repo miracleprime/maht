@@ -47,9 +47,52 @@ class ContactInfo(models.Model):
 class Order(models.Model):
     name = models.CharField('Имя', max_length=100)
     phone = models.CharField('Телефон', max_length=20)
+    email = models.EmailField('Email', blank=True, null=True)
     comment = models.TextField('Комментарий', blank=True)
     created_at = models.DateTimeField('Дата заявки', auto_now_add=True)
     is_processed = models.BooleanField('Обработано', default=False)
 
     def __str__(self):
         return f'{self.name} - {self.phone}'
+
+class DeliveryInfo(models.Model):
+    title = models.CharField('Заголовок', max_length=200)
+    content = models.TextField('Описание')
+    image = models.ImageField('Изображение', upload_to='delivery/', blank=True, null=True)
+    order = models.PositiveIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Доставка'
+        verbose_name_plural = 'Доставка'
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+class PaymentInfo(models.Model):
+    title = models.CharField('Заголовок', max_length=200)
+    content = models.TextField('Описание')
+    image = models.ImageField('Изображение', upload_to='payment/', blank=True, null=True)
+    order = models.PositiveIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Оплата'
+        verbose_name_plural = 'Оплата'
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+class TermsInfo(models.Model):
+    title = models.CharField('Заголовок', max_length=200)
+    content = models.TextField('Описание')
+    image = models.ImageField('Изображение', upload_to='terms/', blank=True, null=True)
+    order = models.PositiveIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Сроки'
+        verbose_name_plural = 'Сроки'
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title

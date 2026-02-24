@@ -33,8 +33,10 @@ section h2 {
 .navbar-dark .navbar-nav .nav-link:hover {
     color: #f4bd02 !important;
 }
+.navbar.sticky-top {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s;
 }
-
 /* Контактная информация – если нужно покрасить текст в зелёный */
 .contact-info p {
     color: #1a3b2e !important;

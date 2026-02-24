@@ -4,7 +4,7 @@
 {% block content %}
 
 <!-- Навигация (шапка) -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   <div class="container">
     <a class="navbar-brand" href="#">Типография</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -14,6 +14,9 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="#">Главная</a></li>
         <li class="nav-item"><a class="nav-link" href="#services">Услуги</a></li>
+        <li class="nav-item"><a class="nav-link" href="#terms">Сроки</a></li>
+        <li class="nav-item"><a class="nav-link" href="#payment">Оплата</a></li>
+        <li class="nav-item"><a class="nav-link" href="#delivery">Доставка</a></li>
         <li class="nav-item"><a class="nav-link" href="#portfolio">Портфолио</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact">Контакты</a></li>
       </ul>
@@ -26,65 +29,127 @@
   <div class="container py-5">
     <h1 class="display-4">Оперативная полиграфия</h1>
     <p class="lead">Для оформления заказа потребуется не более 2х минут вашего времени, а остальное мы обеспечим независимо от сложности задачи</p>
-    <a href="#contact" class="btn btn-warning btn-lg mt-3">Рассчитать стоимость</a>
+    <button type="button" class="btn btn-warning btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#orderModal">
+        Рассчитать стоимость
+    </button>
   </div>
 </section>
 
-<!-- Услуги -->
+
+</section><!-- Услуги -->
 <section id="services" class="py-5">
   <div class="container">
     <h2 class="text-center mb-5">НАШИ УСЛУГИ</h2>
     <div class="row g-4">
+      {% for service in services %}
       <div class="col-md-3">
         <div class="card h-100 text-center p-3">
+          {% if service.image %}
+            <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}" style="max-height: 100px; object-fit: contain;">
+          {% endif %}
           <div class="card-body">
-            <h5 class="card-title">Буклеты</h5>
-            <p class="card-text">Краткое описание услуги</p>
+            <h5 class="card-title">{{ service.title }}</h5>
+            <p class="card-text">{{ service.description }}</p>
+            <p class="card-text"><strong>{{ service.price }}</strong></p>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="card h-100 text-center p-3">
+      {% empty %}
+      <p class="text-center">Услуги временно не добавлены.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Сроки -->
+<section id="terms" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">СРОКИ</h2>
+    <div class="row">
+      {% for item in terms %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+          {% endif %}
           <div class="card-body">
-            <h5 class="card-title">Многостраничники</h5>
-            <p class="card-text">Краткое описание услуги</p>
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">{{ item.content|linebreaks }}</p>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="card h-100 text-center p-3">
+      {% empty %}
+      <p>Информация о сроках скоро появится.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Оплата -->
+<section id="payment" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">ОПЛАТА</h2>
+    <div class="row">
+      {% for item in payment %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+          {% endif %}
           <div class="card-body">
-            <h5 class="card-title">Плакаты</h5>
-            <p class="card-text">Краткое описание услуги</p>
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">{{ item.content|linebreaks }}</p>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="card h-100 text-center p-3">
+      {% empty %}
+      <p>Информация об оплате скоро появится.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Доставка -->
+<section id="delivery" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">ДОСТАВКА</h2>
+    <div class="row">
+      {% for item in delivery %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+          {% endif %}
           <div class="card-body">
-            <h5 class="card-title">Этикетки</h5>
-            <p class="card-text">Краткое описание услуги</p>
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">{{ item.content|linebreaks }}</p>
           </div>
         </div>
       </div>
+      {% empty %}
+      <p>Информация о доставке скоро появится.</p>
+      {% endfor %}
     </div>
   </div>
 </section>
 
 <!-- Портфолио -->
-<section id="portfolio" class="bg-light py-5">
+<section id="portfolio" class="bg-white py-5">
   <div class="container">
     <h2 class="text-center mb-5">ПРИМЕРЫ РАБОТ</h2>
     <div class="row g-4">
+      {% for item in portfolio %}
       <div class="col-md-4">
-        <img src="https://via.placeholder.com/400x300" class="img-fluid rounded" alt="Пример работы 1">
+        {% if item.image %}
+          <img src="{{ item.image.url }}" class="img-fluid rounded" alt="{{ item.title }}">
+        {% else %}
+          <img src="https://via.placeholder.com/400x300" class="img-fluid rounded" alt="Пример работы">
+        {% endif %}
+        <p class="mt-2 text-center">{{ item.title }}</p>
       </div>
-      <div class="col-md-4">
-        <img src="https://via.placeholder.com/400x300" class="img-fluid rounded" alt="Пример работы 2">
-      </div>
-      <div class="col-md-4">
-        <img src="https://via.placeholder.com/400x300" class="img-fluid rounded" alt="Пример работы 3">
-      </div>
+      {% empty %}
+      <p class="text-center">Портфолио временно отсутствует.</p>
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -95,25 +160,25 @@
     <div class="row">
       <div class="col-md-6">
         <h2>Контакты</h2>
-        <p><strong>Телефон:</strong> +7 (812) 467-97-20</p>
-        <p><strong>Email:</strong> info@typography.ru</p>
-        <p><strong>Адрес:</strong> СПб, ул. Заставская, 14</p>
+        {% if contact %}
+          <p><strong>Телефон:</strong> {{ contact.phone }}</p>
+          <p><strong>Email:</strong> {{ contact.email }}</p>
+          <p><strong>Адрес:</strong> {{ contact.address }}</p>
+        {% else %}
+          <p>Контакты скоро появятся</p>
+        {% endif %}
       </div>
       <div class="col-md-6">
         <h2>Свяжитесь с нами</h2>
-        <form method="post">
-          {% csrf_token %}
-          <div class="mb-3">
-            <input type="text" class="form-control" name="name" placeholder="Ваше имя" required>
-          </div>
-          <div class="mb-3">
-            <input type="tel" class="form-control" name="phone" placeholder="Телефон" required>
-          </div>
-          <div class="mb-3">
-            <textarea class="form-control" name="comment" rows="3" placeholder="Комментарий"></textarea>
-          </div>
-          <button type="submit" class="btn btn-warning">Отправить</button>
+        <form id="modalOrderForm" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="form_source" value="modal">
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-warning">Отправить</button>
         </form>
+        {% if success %}
+          <div class="alert alert-success mt-3">Спасибо! Мы свяжемся с вами.</div>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -124,4 +189,35 @@
   <p class="mb-0">© 2026 Типография. Все права защищены.</p>
 </footer>
 
+<!-- Модальное окно с формой -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderModalLabel">Рассчитать стоимость</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <form id="modalOrderForm" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="form_source" value="modal">
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-warning">Отправить</button>
+        </form>     
+        {% if success and not from_bottom_form %}
+          <div class="alert alert-success mt-3">Спасибо! Мы свяжемся с вами.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    {% if show_modal %}
+      var myModal = new bootstrap.Modal(document.getElementById('orderModal'));
+      myModal.show();
+    {% endif %}
+  });
+</script>
 {% endblock %}
