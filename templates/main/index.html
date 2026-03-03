@@ -25,18 +25,26 @@
 </nav>
 
 <!-- Главный экран (Hero) -->
-<section class="bg-dark text-white text-center py-5">
-  <div class="container py-5">
-    <h1 class="display-4">Оперативная полиграфия</h1>
-    <p class="lead">Для оформления заказа потребуется не более 2х минут вашего времени, а остальное мы обеспечим независимо от сложности задачи</p>
-    <button type="button" class="btn btn-warning btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#orderModal">
-        Рассчитать стоимость
-    </button>
-  </div>
-</section>
+{% for block in content_blocks %}
+  {% if block.block_type == 'hero' %}
+    <section class="bg-dark text-white text-center py-5" 
+      {% if block.image %}style="background: url('{{ block.image.url }}') no-repeat center center/cover;"{% endif %}>
+      <div class="container py-5">
+        <h1 class="display-4">{{ block.title }}</h1>
+        <p class="lead">{{ block.content }}</p>
+        {% if block.subtitle %}
+          <p class="lead">{{ block.subtitle }}</p>
+        {% endif %}
+        <button type="button" class="btn btn-warning btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#orderModal">
+          Рассчитать стоимость
+        </button>
+      </div>
+    </section>
+  {% endif %}
+{% endfor %}
 
 
-</section><!-- Услуги -->
+<!-- Услуги -->
 <section id="services" class="py-5">
   <div class="container">
     <h2 class="text-center mb-5">НАШИ УСЛУГИ</h2>
@@ -45,7 +53,7 @@
       <div class="col-md-3">
         <div class="card h-100 text-center p-3">
           {% if service.image %}
-            <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}" style="max-height: 100px; object-fit: contain;">
+            <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
           {% endif %}
           <div class="card-body">
             <h5 class="card-title">{{ service.title }}</h5>
@@ -54,8 +62,6 @@
           </div>
         </div>
       </div>
-      {% empty %}
-      <p class="text-center">Услуги временно не добавлены.</p>
       {% endfor %}
     </div>
   </div>
@@ -167,16 +173,22 @@
         {% else %}
           <p>Контакты скоро появятся</p>
         {% endif %}
+        
+        <!-- Здесь будет карта -->
+        <div style="margin-top: 20px;">
+          <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A618f5c325330e8b29c44f8d651def77dc90a36f11b183009d47383d2ac31aaea&amp;width=100%&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
+        </div>
       </div>
+      
       <div class="col-md-6">
         <h2>Свяжитесь с нами</h2>
-        <form id="modalOrderForm" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="form_source" value="modal">
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-warning">Отправить</button>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="form_source" value="bottom">
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-warning">Отправить</button>
         </form>
-        {% if success %}
+        {% if success and from_bottom_form %}
           <div class="alert alert-success mt-3">Спасибо! Мы свяжемся с вами.</div>
         {% endif %}
       </div>

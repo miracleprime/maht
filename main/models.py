@@ -96,3 +96,30 @@ class TermsInfo(models.Model):
 
     def __str__(self):
         return self.title
+
+class ContentBlock(models.Model):
+    BLOCK_TYPES = [
+        ('hero', 'Главный экран'),
+        ('about', 'О компании'),
+        ('advantages', 'Преимущества'),
+        ('quote', 'Цитата'),
+        ('text', 'Текст с изображением'),
+        ('custom', 'Произвольный'),
+    ]
+
+    title = models.CharField('Заголовок', max_length=200, blank=True)
+    subtitle = models.CharField('Подзаголовок', max_length=200, blank=True)
+    content = models.TextField('Текст', blank=True)
+    image = models.ImageField('Изображение', upload_to='blocks/', blank=True, null=True)
+    image_alt = models.CharField('Альт. текст', max_length=200, blank=True)
+    block_type = models.CharField('Тип блока', max_length=20, choices=BLOCK_TYPES, default='custom')
+    order = models.PositiveIntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активно', default=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'Контентный блок'
+        verbose_name_plural = 'Контентные блоки'
+
+    def __str__(self):
+        return self.title or f'Блок {self.block_type} #{self.order}'
