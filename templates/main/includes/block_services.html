@@ -1,0 +1,21 @@
+<section id="services" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">{{ block.title|default:"НАШИ УСЛУГИ" }}</h2>
+    <div class="row g-4">
+      {% for service in services %}
+      <div class="col-md-3">
+        <div class="card h-100 text-center p-3">
+          {% if service.image %}
+            <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ service.title }}</h5>
+            <p class="card-text">{{ service.description }}</p>
+            <p class="card-text"><strong>{{ service.price }}</strong></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

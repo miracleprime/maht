@@ -1,0 +1,22 @@
+<section id="terms" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">{{ block.title|default:"СРОКИ" }}</h2>
+    <div class="row">
+      {% for item in terms %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">{{ item.content|linebreaks }}</p>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>Информация о сроках скоро появится.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>

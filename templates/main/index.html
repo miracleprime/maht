@@ -2,206 +2,317 @@
 {% load static %}
 
 {% block content %}
-
-<!-- Навигация (шапка) -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   <div class="container">
-    <a class="navbar-brand" href="#">Типография</a>
+    <a class="navbar-brand" href="#top">Типография</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#">Главная</a></li>
+        <li class="nav-item"><a class="nav-link" href="#top">Главная</a></li>
         <li class="nav-item"><a class="nav-link" href="#services">Услуги</a></li>
         <li class="nav-item"><a class="nav-link" href="#terms">Сроки</a></li>
         <li class="nav-item"><a class="nav-link" href="#payment">Оплата</a></li>
-        <li class="nav-item"><a class="nav-link" href="#delivery">Доставка</a></li>
         <li class="nav-item"><a class="nav-link" href="#portfolio">Портфолио</a></li>
+        <li class="nav-item"><a class="nav-link" href="#delivery">Доставка</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact">Контакты</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- Главный экран (Hero) -->
 {% for block in content_blocks %}
-  {% if block.block_type == 'hero' %}
-    <section class="bg-dark text-white text-center py-5" 
-      {% if block.image %}style="background: url('{{ block.image.url }}') no-repeat center center/cover;"{% endif %}>
-      <div class="container py-5">
-        <h1 class="display-4">{{ block.title }}</h1>
-        <p class="lead">{{ block.content }}</p>
-        {% if block.subtitle %}
-          <p class="lead">{{ block.subtitle }}</p>
-        {% endif %}
-        <button type="button" class="btn btn-warning btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#orderModal">
-          Рассчитать стоимость
-        </button>
+  {% if block.block_type == 'hero' and block.is_active %}
+    <section id="top" class="bg-dark text-white py-5"
+      {% if block.image %}
+        style="background:
+          linear-gradient(180deg, rgba(9, 26, 21, 0.78), rgba(18, 45, 37, 0.88)),
+          url('{{ block.image.url }}') no-repeat center center / cover;"
+      {% endif %}>
+      <div class="container py-lg-5">
+        <div class="row align-items-center g-4 g-lg-5">
+          <div class="col-lg-7 text-center text-lg-start">
+            <span class="badge rounded-pill text-dark bg-warning px-3 py-2 mb-3">
+              Печать для бизнеса и частных клиентов
+            </span>
+
+            <h1 class="display-4">{{ block.title }}</h1>
+
+            <p class="lead mb-3">{{ block.content }}</p>
+
+            {% if block.subtitle %}
+              <p class="lead mb-4">{{ block.subtitle }}</p>
+            {% endif %}
+
+            <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+              <button type="button" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#orderModal">
+                Рассчитать стоимость
+              </button>
+              <a href="#services" class="btn btn-outline-light btn-lg">
+                Смотреть продукцию
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="bg-white text-dark rounded-4 shadow p-4 p-lg-5 h-100">
+              <h3 class="h4 fw-bold mb-3">Как начать</h3>
+
+              <div class="mb-4">
+                <div class="mb-3">1. Напишите, что нужно напечатать.</div>
+                <div class="mb-3">2. Укажите тираж и желаемые сроки.</div>
+                <div>3. Мы рассчитаем стоимость и предложим подходящий вариант.</div>
+              </div>
+
+              <div class="row g-3 text-center">
+                <div class="col-4">
+                  <div class="border rounded-4 p-3 h-100">
+                    <div class="fw-bold">1–3 дня</div>
+                    <small class="text-muted">стандартные заказы</small>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="border rounded-4 p-3 h-100">
+                    <div class="fw-bold">Без лишнего</div>
+                    <small class="text-muted">понятный расчёт</small>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="border rounded-4 p-3 h-100">
+                    <div class="fw-bold">На связи</div>
+                    <small class="text-muted">по телефону и в мессенджерах</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   {% endif %}
 {% endfor %}
 
-
-<!-- Услуги -->
 <section id="services" class="py-5">
   <div class="container">
-    <h2 class="text-center mb-5">НАШИ УСЛУГИ</h2>
-    <div class="row g-4">
-      {% for service in services %}
-      <div class="col-md-3">
-        <div class="card h-100 text-center p-3">
-          {% if service.image %}
-            <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ service.title }}</h5>
-            <p class="card-text">{{ service.description }}</p>
-            <p class="card-text"><strong>{{ service.price }}</strong></p>
+    <h2 class="text-center mb-3">НАША ПРОДУКЦИЯ</h2>
+    <p class="text-center text-muted mx-auto mb-5" style="max-width: 760px;">
+      Популярные виды полиграфии, которые можно заказать с расчётом стоимости и подбором подходящего формата.
+    </p>
+
+    <div class="products-grid">
+      {% for s in services %}
+        <a class="product-tile" href="#contact"
+           style="{% if s.image %}background-image:url('{{ s.image.url }}');{% endif %}">
+          <div class="product-tile__overlay"></div>
+          <div class="product-tile__content">
+            <div class="product-tile__title">{{ s.title }}</div>
+            {% if s.price %}
+              <div class="product-tile__price">{{ s.price }}</div>
+            {% endif %}
           </div>
-        </div>
-      </div>
+        </a>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- Сроки -->
 <section id="terms" class="py-5 bg-light">
   <div class="container">
-    <h2 class="text-center mb-5">СРОКИ</h2>
-    <div class="row">
+    <h2 class="text-center mb-3">СРОКИ</h2>
+    <p class="text-center text-muted mx-auto mb-5" style="max-width: 760px;">
+      Сразу говорим реальные сроки изготовления, чтобы вы понимали, когда заказ будет готов.
+    </p>
+
+    <div class="row g-4 justify-content-center">
       {% for item in terms %}
-      <div class="col-md-4 mb-4">
-        <div class="card h-100">
-          {% if item.image %}
-          <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ item.title }}</h5>
-            <p class="card-text">{{ item.content|linebreaks }}</p>
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100">
+            {% if item.image %}
+              <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <div class="card-text">{{ item.content|linebreaks }}</div>
+            </div>
           </div>
         </div>
-      </div>
       {% empty %}
-      <p>Информация о сроках скоро появится.</p>
+        <div class="col-12 text-center">
+          <p class="mb-0">Информация о сроках скоро появится.</p>
+        </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- Оплата -->
 <section id="payment" class="py-5">
   <div class="container">
-    <h2 class="text-center mb-5">ОПЛАТА</h2>
-    <div class="row">
+    <h2 class="text-center mb-3">ОПЛАТА</h2>
+    <p class="text-center text-muted mx-auto mb-5" style="max-width: 760px;">
+      Работаем с частными клиентами и компаниями, заранее согласовываем стоимость и удобный способ оплаты.
+    </p>
+
+    <div class="row g-4 justify-content-center">
       {% for item in payment %}
-      <div class="col-md-4 mb-4">
-        <div class="card h-100">
-          {% if item.image %}
-          <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ item.title }}</h5>
-            <p class="card-text">{{ item.content|linebreaks }}</p>
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100">
+            {% if item.image %}
+              <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <div class="card-text">{{ item.content|linebreaks }}</div>
+            </div>
           </div>
         </div>
-      </div>
       {% empty %}
-      <p>Информация об оплате скоро появится.</p>
+        <div class="col-12 text-center">
+          <p class="mb-0">Информация об оплате скоро появится.</p>
+        </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- Доставка -->
-<section id="delivery" class="py-5 bg-light">
-  <div class="container">
-    <h2 class="text-center mb-5">ДОСТАВКА</h2>
-    <div class="row">
-      {% for item in delivery %}
-      <div class="col-md-4 mb-4">
-        <div class="card h-100">
-          {% if item.image %}
-          <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ item.title }}</h5>
-            <p class="card-text">{{ item.content|linebreaks }}</p>
-          </div>
-        </div>
-      </div>
-      {% empty %}
-      <p>Информация о доставке скоро появится.</p>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<!-- Портфолио -->
 <section id="portfolio" class="bg-white py-5">
   <div class="container">
-    <h2 class="text-center mb-5">ПРИМЕРЫ РАБОТ</h2>
-    <div class="row g-4">
+    <h2 class="text-center mb-3">ПРИМЕРЫ РАБОТ</h2>
+    <p class="text-center text-muted mx-auto mb-5" style="max-width: 760px;">
+      Несколько примеров готовой продукции, чтобы сразу было понятнее по качеству и подаче.
+    </p>
+
+    <div class="row g-4 justify-content-center">
       {% for item in portfolio %}
-      <div class="col-md-4">
-        {% if item.image %}
-          <img src="{{ item.image.url }}" class="img-fluid rounded" alt="{{ item.title }}">
-        {% else %}
-          <img src="https://via.placeholder.com/400x300" class="img-fluid rounded" alt="Пример работы">
-        {% endif %}
-        <p class="mt-2 text-center">{{ item.title }}</p>
-      </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="h-100">
+            {% if item.image %}
+              <img src="{{ item.image.url }}" class="img-fluid rounded w-100" alt="{{ item.title }}">
+            {% else %}
+              <div class="ratio ratio-4x3 bg-light rounded"></div>
+            {% endif %}
+            <p class="mt-3 text-center">{{ item.title }}</p>
+          </div>
+        </div>
       {% empty %}
-      <p class="text-center">Портфолио временно отсутствует.</p>
+        <div class="col-12 text-center">
+          <p class="mb-0">Портфолио временно отсутствует.</p>
+        </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- Контакты и форма -->
-<section id="contact" class="py-5">
+<section id="delivery" class="delivery-ref-section">
   <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h2>Контакты</h2>
-        {% if contact %}
-          <p><strong>Телефон:</strong> {{ contact.phone }}</p>
-          <p><strong>Email:</strong> {{ contact.email }}</p>
-          <p><strong>Адрес:</strong> {{ contact.address }}</p>
-        {% else %}
-          <p>Контакты скоро появятся</p>
-        {% endif %}
-        
-        <!-- Здесь будет карта -->
-        <div style="margin-top: 20px;">
-          <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A618f5c325330e8b29c44f8d651def77dc90a36f11b183009d47383d2ac31aaea&amp;width=100%&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
+    <div class="delivery-ref-grid overflow-hidden rounded-4 shadow-sm">
+      <div class="delivery-ref-left">
+        <div class="delivery-ref-title">
+          <h2>ДВА ВАРИАНТА ДОСТАВКИ</h2>
+        </div>
+
+        <div class="delivery-ref-cards">
+          {% for item in delivery|slice:":2" %}
+            <div class="delivery-ref-card">
+              <h3>{{ item.title }}</h3>
+              <div class="delivery-ref-text">{{ item.content|linebreaks }}</div>
+            </div>
+          {% empty %}
+            <div class="delivery-ref-card">
+              <h3>УСЛУГИ КУРЬЕРА</h3>
+              <p>Курьерская доставка может быть как платной, так и бесплатной. Условия согласуем при оформлении заказа.</p>
+            </div>
+            <div class="delivery-ref-card">
+              <h3>САМОВЫВОЗ</h3>
+              <p>Забрать тираж можно в нашей типографии после подтверждения готовности заказа.</p>
+            </div>
+          {% endfor %}
         </div>
       </div>
-      
-      <div class="col-md-6">
-        <h2>Свяжитесь с нами</h2>
-        <form method="post">
-          {% csrf_token %}
-          <input type="hidden" name="form_source" value="bottom">
-          {{ form.as_p }}
-          <button type="submit" class="btn btn-warning">Отправить</button>
-        </form>
-        {% if success and from_bottom_form %}
-          <div class="alert alert-success mt-3">Спасибо! Мы свяжемся с вами.</div>
-        {% endif %}
+
+      <div class="delivery-ref-map">
+        <script type="text/javascript" charset="utf-8" async
+          src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A618f5c325330e8b29c44f8d651def77dc90a36f11b183009d47383d2ac31aaea&amp;width=100%25&amp;height=100%25&amp;lang=ru_RU&amp;scroll=true">
+        </script>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Подвал -->
+<section id="contact" class="contact-ref-section">
+  <div class="container">
+    <div class="contact-ref-grid">
+      <div class="contact-ref-start">
+        <h2>С ЧЕГО НАЧАТЬ</h2>
+        <div class="contact-ref-line"></div>
+        <p>
+          Оставьте заявку или свяжитесь с нами удобным способом.
+          Мы уточним задачу, подскажем формат, рассчитаем стоимость
+          и назовём реальный срок изготовления.
+        </p>
+        <p>
+          Для расчёта достаточно описать, что именно нужно напечатать,
+          указать примерный тираж и желаемые сроки.
+        </p>
+      </div>
+
+      <div class="contact-ref-form-wrap">
+        <h2>ОТПРАВЬТЕ ФОРМУ ИЛИ СВЯЖИТЕСЬ С НАМИ САМОСТОЯТЕЛЬНО</h2>
+
+        <form class="contact-form contact-ref-form" method="post" action="{% url 'submit_order' %}">
+          {% csrf_token %}
+          <input type="hidden" name="form_source" value="bottom">
+
+          <div class="contact-ref-field">
+            <input type="text" name="name" placeholder="Ваше имя" required>
+          </div>
+
+          <div class="contact-ref-field">
+            <input type="text" name="phone" placeholder="+7 (___) ___-__-__" required>
+          </div>
+
+          <div class="contact-ref-field">
+            <input type="email" name="email" placeholder="Email">
+          </div>
+
+          <div class="contact-ref-field">
+            <textarea name="comment" rows="4" placeholder="Комментарий"></textarea>
+          </div>
+
+          <label class="contact-ref-check">
+            <input type="checkbox" required>
+            <span>Я соглашаюсь с правилами обработки данных</span>
+          </label>
+
+          <button type="submit" class="contact-ref-submit">ОТПРАВИТЬ</button>
+        </form>
+      </div>
+
+      <div class="contact-ref-info">
+        <h3>АДРЕС</h3>
+        <p>{% if contact and contact.address %}{{ contact.address }}{% else %}Адрес уточняется{% endif %}</p>
+
+        <h3>ГРАФИК</h3>
+        <p>{% if contact and contact.work_hours %}{{ contact.work_hours }}{% else %}Пн–Пт 9:00–18:00{% endif %}</p>
+
+        <p class="contact-ref-phone">{% if contact and contact.phone %}{{ contact.phone }}{% else %}+7 (000) 000-00-00{% endif %}</p>
+
+        <p class="contact-ref-email">{% if contact and contact.email %}{{ contact.email }}{% else %}email@example.com{% endif %}</p>
+
+        <div class="contact-ref-buttons">
+          <a href="#" class="contact-btn contact-btn--tg">TELEGRAM</a>
+          <a href="#" class="contact-btn contact-btn--wa">WHATSAPP</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="bg-dark text-white text-center py-3">
   <p class="mb-0">© 2026 Типография. Все права защищены.</p>
 </footer>
 
-<!-- Модальное окно с формой -->
 <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -210,26 +321,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
       </div>
       <div class="modal-body">
-        <form id="modalOrderForm" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="form_source" value="modal">
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-warning">Отправить</button>
-        </form>     
-        {% if success and not from_bottom_form %}
-          <div class="alert alert-success mt-3">Спасибо! Мы свяжемся с вами.</div>
-        {% endif %}
+        <form id="modalOrderForm" class="contact-form" method="post" action="{% url 'submit_order' %}">
+          {% csrf_token %}
+          <input type="hidden" name="form_source" value="modal">
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-warning">Отправить</button>
+        </form>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    {% if show_modal %}
-      var myModal = new bootstrap.Modal(document.getElementById('orderModal'));
-      myModal.show();
-    {% endif %}
-  });
-</script>
 {% endblock %}

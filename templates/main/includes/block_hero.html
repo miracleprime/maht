@@ -1,0 +1,13 @@
+<section id="hero-{{ block.id }}" class="bg-dark text-white text-center py-5" 
+  {% if block.image %}style="background: url('{{ block.image.url }}') no-repeat center center/cover;"{% endif %}>
+  <div class="container py-5">
+    <h1 class="display-4">{{ block.title }}</h1>
+    <p class="lead">{{ block.content }}</p>
+    {% if block.subtitle %}
+      <p class="lead">{{ block.subtitle }}</p>
+    {% endif %}
+    <button type="button" class="btn btn-warning btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#orderModal">
+      Рассчитать стоимость
+    </button>
+  </div>
+</section>

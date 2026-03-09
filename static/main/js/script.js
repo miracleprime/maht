@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const nav = document.querySelector('.nav');
     const header = document.querySelector('.header');
     const links = document.querySelectorAll('a[href^="#"]');
-    const contactForm = document.querySelector('.contact-form');
+    const forms = document.querySelectorAll('.contact-form');
+
 
     // Мобильное меню
     if (burger && nav) {
@@ -36,40 +37,49 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Обработка формы (отправка через AJAX)
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(contactForm);
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitButton.textContent;
+    // Обработка форм (отправка через AJAX)
+    forms.forEach((form) => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
 
-            submitButton.textContent = 'Отправка...';
-            submitButton.disabled = true;
+        const formData = new FormData(form);
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalText = submitButton ? submitButton.textContent : '';
 
-            fetch('/submit-order/', {
-                method: 'POST',
-                body: formData,
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showMessage('Спасибо! Мы свяжемся с вами.', 'success');
-                    contactForm.reset();
-                } else {
-                    showMessage('Ошибка: ' + (data.error || 'Проверьте поля'), 'error');
-                }
-            })
-            .catch(() => {
-                showMessage('Ошибка соединения. Попробуйте позже.', 'error');
-            })
-            .finally(() => {
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-            });
+        if (submitButton) {
+        submitButton.textContent = 'Отправка...';
+        submitButton.disabled = true;
+        }
+
+        const csrf = form.querySelector('[name=csrfmiddlewaretoken]')?.value;
+
+        fetch(form.getAttribute('action') || '/submit-order/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            ...(csrf ? { 'X-CSRFToken': csrf } : {})
+        }
+        })
+        .then(r => r.json())
+        .then(data => {
+        if (data.success) {
+            showMessage('Спасибо! Мы свяжемся с вами.', 'success');
+            form.reset();
+        } else {
+            showMessage('Ошибка: ' + (data.error || 'Проверьте поля'), 'error');
+        }
+        })
+        .catch(() => showMessage('Ошибка соединения. Попробуйте позже.', 'error'))
+        .finally(() => {
+        if (submitButton) {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
         });
-    }
+    });
+    });
+
 
     function showMessage(text, type) {
         const div = document.createElement('div');
