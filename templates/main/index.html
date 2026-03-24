@@ -2,121 +2,173 @@
 {% load static %}
 
 {% block content %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-  <div class="container">
-    <a class="navbar-brand" href="#top">Типография</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<nav id="siteHeader" class="site-header navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container site-header-row">
+    <a class="navbar-brand" href="#top">
+      {{ site_settings.site_name|default:"Типография" }}
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Открыть меню">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#top">Главная</a></li>
-        <li class="nav-item"><a class="nav-link" href="#services">Услуги</a></li>
-        <li class="nav-item"><a class="nav-link" href="#terms">Сроки</a></li>
-        <li class="nav-item"><a class="nav-link" href="#payment">Оплата</a></li>
-        <li class="nav-item"><a class="nav-link" href="#portfolio">Портфолио</a></li>
-        <li class="nav-item"><a class="nav-link" href="#delivery">Доставка</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Контакты</a></li>
+    <div class="collapse navbar-collapse site-header-nav-wrap" id="navbarNav">
+      <ul class="navbar-nav site-header-nav">
+        <li class="nav-item"><a class="nav-link" href="#services">{{ site_settings.services_menu_title|default:"Услуги" }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="#terms">{{ site_settings.terms_menu_title|default:"Сроки" }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="#payment">{{ site_settings.payment_menu_title|default:"Оплата" }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="#portfolio">{{ site_settings.portfolio_menu_title|default:"Оборудование" }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="#delivery">{{ site_settings.delivery_menu_title|default:"Доставка" }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">{{ site_settings.contact_menu_title|default:"Контакты" }}</a></li>
+
       </ul>
+
+      <div class="site-header-right d-none d-lg-flex">
+        <a href="tel:{{ contact.phone|default:'+7 (000) 000-00-00' }}" class="site-header-phone">
+          {{ contact.phone|default:"+7 (000) 000-00-00" }}
+        </a>
+
+        <button type="button" class="btn btn-warning site-header-cta" data-bs-toggle="modal" data-bs-target="#orderModal">
+          Рассчитать заказ
+        </button>
+      </div>
+
+      <div class="site-header-mobile d-lg-none">
+        <a href="tel:{{ contact.phone|default:'+7 (000) 000-00-00' }}" class="site-header-phone">
+          {{ contact.phone|default:"+7 (000) 000-00-00" }}
+        </a>
+
+        <button type="button" class="btn btn-warning site-header-cta" data-bs-toggle="modal" data-bs-target="#orderModal">
+          Рассчитать заказ
+        </button>
+      </div>
     </div>
   </div>
 </nav>
 
+
+
+
+
+
 {% for block in content_blocks %}
   {% if block.block_type == 'hero' and block.is_active %}
-    <section id="top" class="bg-dark text-white py-5"
+    <section id="top" class="hero-screen bg-dark text-white py-5"
       {% if block.image %}
         style="background:
           linear-gradient(180deg, rgba(9, 26, 21, 0.78), rgba(18, 45, 37, 0.88)),
           url('{{ block.image.url }}') no-repeat center center / cover;"
       {% endif %}>
       <div class="container py-lg-5">
+
+        <div class="hero-topbar">
+          <div class="hero-brand">
+            {{ site_settings.site_name|default:"ТИПОГРАФИЯ ЦИФРОВОЙ ПЕЧАТИ" }}
+          </div>
+
+          <button class="hero-burger" type="button" aria-label="Меню">
+            <span></span>
+            <span></span>
+          </button>
+
+          <div class="hero-top-contact">
+            <a href="#contact" class="hero-top-contact-label">КОНТАКТЫ</a>
+            <a href="tel:{{ contact.phone|default:'+7 (000) 000-00-00' }}" class="hero-top-phone">
+              {{ contact.phone|default:"+7 (000) 000-00-00" }}
+            </a>
+          </div>
+        </div>
+
         <div class="row align-items-center g-4 g-lg-5">
+
           <div class="col-lg-7 text-center text-lg-start">
-            <span class="badge rounded-pill text-dark bg-warning px-3 py-2 mb-3">
-              Печать для бизнеса и частных клиентов
-            </span>
+            <h1 class="display-4">{{ block.title|striptags }}</h1>
 
-            <h1 class="display-4">{{ block.title }}</h1>
-
-            <p class="lead mb-3">{{ block.content }}</p>
-
-            {% if block.subtitle %}
-              <p class="lead mb-4">{{ block.subtitle }}</p>
+            {% if block.content %}
+              <div class="lead mb-3">{{ block.content|striptags }}</div>
             {% endif %}
 
-            <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+            {% if block.subtitle %}
+              <div class="lead mb-4">{{ block.subtitle|striptags }}</div>
+            {% endif %}
+
+            <div class="hero-actions-buttons">
               <button type="button" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#orderModal">
-                Рассчитать стоимость
+                {{ site_settings.hero_primary_button|default:"Рассчитать стоимость" }}
               </button>
               <a href="#services" class="btn btn-outline-light btn-lg">
-                Смотреть продукцию
+                {{ site_settings.hero_secondary_button|default:"Смотреть продукцию" }}
               </a>
             </div>
           </div>
 
           <div class="col-lg-5">
             <div class="bg-white text-dark rounded-4 shadow p-4 p-lg-5 h-100">
-              <h3 class="h4 fw-bold mb-3">Как начать</h3>
+              {% for side_block in content_blocks %}
+                {% if side_block.block_type == 'about' and side_block.is_active %}
+                  <h3 class="h4 fw-bold mb-3">{{ side_block.title|striptags }}</h3>
 
-              <div class="mb-4">
-                <div class="mb-3">1. Напишите, что нужно напечатать.</div>
-                <div class="mb-3">2. Укажите тираж и желаемые сроки.</div>
-                <div>3. Мы рассчитаем стоимость и предложим подходящий вариант.</div>
-              </div>
+                  <div class="mb-4 hero-about-plain">
+                    {{ side_block.content|striptags|linebreaks }}
+                  </div>
+                {% endif %}
+              {% endfor %}
 
               <div class="row g-3 text-center">
-                <div class="col-4">
-                  <div class="border rounded-4 p-3 h-100">
-                    <div class="fw-bold">1–3 дня</div>
-                    <small class="text-muted">стандартные заказы</small>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <div class="border rounded-4 p-3 h-100">
-                    <div class="fw-bold">Без лишнего</div>
-                    <small class="text-muted">понятный расчёт</small>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <div class="border rounded-4 p-3 h-100">
-                    <div class="fw-bold">На связи</div>
-                    <small class="text-muted">по телефону и в мессенджерах</small>
-                  </div>
-                </div>
+                {% for adv_block in content_blocks %}
+                  {% if adv_block.block_type == 'advantages' and adv_block.is_active %}
+                    <div class="col-md-4 col-12">
+                      <div class="border rounded-4 p-3 h-100 hero-adv-card">
+                        <div class="fw-bold">{{ adv_block.title|striptags }}</div>
+                        {% if adv_block.subtitle %}
+                          <small class="text-muted d-block">{{ adv_block.subtitle|striptags }}</small>
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
               </div>
             </div>
+
+            <nav class="hero-side-nav" aria-label="Навигация по разделам">
+            <a href="#services">{{ site_settings.services_menu_title|default:"Услуги" }}</a>
+            <a href="#terms">{{ site_settings.terms_menu_title|default:"Сроки" }}</a>
+            <a href="#payment">{{ site_settings.payment_menu_title|default:"Оплата" }}</a>
+            <a href="#portfolio">{{ site_settings.portfolio_menu_title|default:"Оборудование" }}</a>
+            <a href="#delivery">{{ site_settings.delivery_menu_title|default:"Доставка" }}</a>
+            <a href="#contact">{{ site_settings.contact_menu_title|default:"Контакты" }}</a>
+          </nav>
+
           </div>
+
         </div>
       </div>
     </section>
   {% endif %}
 {% endfor %}
 
-<section id="services" class="py-5">
-  <div class="container">
-    <h2 class="text-center mb-3">НАША ПРОДУКЦИЯ</h2>
-    <p class="text-center text-muted mx-auto mb-5" style="max-width: 760px;">
-      Популярные виды полиграфии, которые можно заказать с расчётом стоимости и подбором подходящего формата.
-    </p>
 
-    <div class="products-grid">
-      {% for s in services %}
-        <a class="product-tile" href="#contact"
-           style="{% if s.image %}background-image:url('{{ s.image.url }}');{% endif %}">
-          <div class="product-tile__overlay"></div>
-          <div class="product-tile__content">
-            <div class="product-tile__title">{{ s.title }}</div>
-            {% if s.price %}
-              <div class="product-tile__price">{{ s.price }}</div>
-            {% endif %}
-          </div>
-        </a>
-      {% endfor %}
-    </div>
+<section id="services" class="services-ref py-5">
+  <div class="services-head container">
+    <h2 class="text-center mb-0">НАША ПРОДУКЦИЯ</h2>
+  </div>
+
+  <div class="products-grid">
+    {% for s in services %}
+      <a class="product-tile"
+         style="{% if s.image %}background-image:url('{{ s.image.url }}');{% endif %}">
+        <div class="product-tile__overlay"></div>
+        <div class="product-tile__content">
+          <div class="product-tile__title">{{ s.title }}</div>
+          {% if s.price %}
+            <div class="product-tile__price">{{ s.price }}</div>
+          {% endif %}
+        </div>
+      </a>
+    {% endfor %}
   </div>
 </section>
+
 
 <section id="terms" class="py-5 bg-light">
   <div class="container">
@@ -178,31 +230,34 @@
 
 <section id="portfolio" class="bg-white py-5">
   <div class="container">
-    <h2 class="text-center mb-3">ПРИМЕРЫ РАБОТ</h2>
-    <p class="text-center text-muted mx-auto mb-5" style="max-width: 760px;">
-      Несколько примеров готовой продукции, чтобы сразу было понятнее по качеству и подаче.
+    <h2 class="text-center mb-3">
+      {{ site_settings.portfolio_section_title|default:"ОБОРУДОВАНИЕ" }}
+    </h2>
+    <p class="text-center text-muted mx-auto mb-5" style="max-width: 760px">
+      {{ site_settings.portfolio_section_subtitle|default:"Наше оборудование и производственные возможности" }}
     </p>
 
     <div class="row g-4 justify-content-center">
       {% for item in portfolio %}
-        <div class="col-lg-4 col-md-6">
-          <div class="h-100">
-            {% if item.image %}
-              <img src="{{ item.image.url }}" class="img-fluid rounded w-100" alt="{{ item.title }}">
-            {% else %}
-              <div class="ratio ratio-4x3 bg-light rounded"></div>
-            {% endif %}
-            <p class="mt-3 text-center">{{ item.title }}</p>
-          </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="h-100">
+          {% if item.image %}
+            <img src="{{ item.image.url }}" class="img-fluid rounded w-100" alt="{{ item.title }}">
+          {% else %}
+            <div class="ratio ratio-4x3 bg-light rounded"></div>
+          {% endif %}
+          <p class="mt-3 text-center">{{ item.title }}</p>
         </div>
+      </div>
       {% empty %}
-        <div class="col-12 text-center">
-          <p class="mb-0">Портфолио временно отсутствует.</p>
-        </div>
+      <div class="col-12 text-center">
+        <p class="mb-0">Раздел временно пуст.</p>
+      </div>
       {% endfor %}
     </div>
   </div>
 </section>
+
 
 <section id="delivery" class="delivery-ref-section">
   <div class="container">
@@ -216,7 +271,8 @@
           {% for item in delivery|slice:":2" %}
             <div class="delivery-ref-card">
               <h3>{{ item.title }}</h3>
-              <div class="delivery-ref-text">{{ item.content|linebreaks }}</div>
+              <div class="delivery-ref-text">{{ item.content|safe }}</div>
+
             </div>
           {% empty %}
             <div class="delivery-ref-card">
@@ -243,22 +299,20 @@
 <section id="contact" class="contact-ref-section">
   <div class="container">
     <div class="contact-ref-grid">
-      <div class="contact-ref-start">
-        <h2>С ЧЕГО НАЧАТЬ</h2>
-        <div class="contact-ref-line"></div>
-        <p>
-          Оставьте заявку или свяжитесь с нами удобным способом.
-          Мы уточним задачу, подскажем формат, рассчитаем стоимость
-          и назовём реальный срок изготовления.
-        </p>
-        <p>
-          Для расчёта достаточно описать, что именно нужно напечатать,
-          указать примерный тираж и желаемые сроки.
-        </p>
-      </div>
+      {% for info_block in content_blocks %}
+        {% if info_block.block_type == 'text' and info_block.title == 'С ЧЕГО НАЧАТЬ' and info_block.is_active %}
+          <div class="contact-ref-start">
+            <h2>{{ info_block.title }}</h2>
+            <div class="contact-ref-line"></div>
+            <div class="hero-about-plain">
+              {{ info_block.content|striptags|linebreaks }}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
 
       <div class="contact-ref-form-wrap">
-        <h2>ОТПРАВЬТЕ ФОРМУ ИЛИ СВЯЖИТЕСЬ С НАМИ САМОСТОЯТЕЛЬНО</h2>
+        <h2>{{ site_settings.contact_form_title|default:"ОТПРАВЬТЕ ФОРМУ ИЛИ СВЯЖИТЕСЬ С НАМИ САМОСТОЯТЕЛЬНО" }}</h2>
 
         <form class="contact-form contact-ref-form" method="post" action="{% url 'submit_order' %}">
           {% csrf_token %}
@@ -282,10 +336,12 @@
 
           <label class="contact-ref-check">
             <input type="checkbox" required>
-            <span>Я соглашаюсь с правилами обработки данных</span>
+            <span>{{ site_settings.consent_text|default:"Я соглашаюсь с правилами обработки данных" }}</span>
           </label>
 
-          <button type="submit" class="contact-ref-submit">ОТПРАВИТЬ</button>
+          <button type="submit" class="contact-ref-submit">
+            {{ site_settings.submit_button_text|default:"ОТПРАВИТЬ" }}
+          </button>
         </form>
       </div>
 
@@ -301,8 +357,12 @@
         <p class="contact-ref-email">{% if contact and contact.email %}{{ contact.email }}{% else %}email@example.com{% endif %}</p>
 
         <div class="contact-ref-buttons">
-          <a href="#" class="contact-btn contact-btn--tg">TELEGRAM</a>
-          <a href="#" class="contact-btn contact-btn--wa">WHATSAPP</a>
+          <a href="{{ site_settings.telegram_url|default:'#' }}" class="contact-btn contact-btn--tg">
+            {{ site_settings.telegram_button_text|default:"TELEGRAM" }}
+          </a>
+          <a href="{{ site_settings.whatsapp_url|default:'#' }}" class="contact-btn contact-btn--wa">
+            {{ site_settings.whatsapp_button_text|default:"WHATSAPP" }}
+          </a>
         </div>
       </div>
     </div>
@@ -310,14 +370,16 @@
 </section>
 
 <footer class="bg-dark text-white text-center py-3">
-  <p class="mb-0">© 2026 Типография. Все права защищены.</p>
+  <p class="mb-0">{{ site_settings.footer_text|default:"© 2026 Типография. Все права защищены." }}</p>
 </footer>
 
 <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="orderModalLabel">Рассчитать стоимость</h5>
+        <h5 class="modal-title" id="orderModalLabel">
+          {{ site_settings.modal_title|default:"Рассчитать стоимость" }}
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
       </div>
       <div class="modal-body">
@@ -325,7 +387,9 @@
           {% csrf_token %}
           <input type="hidden" name="form_source" value="modal">
           {{ form.as_p }}
-          <button type="submit" class="btn btn-warning">Отправить</button>
+          <button type="submit" class="btn btn-warning">
+            {{ site_settings.modal_submit_button_text|default:"Отправить" }}
+          </button>
         </form>
       </div>
     </div>

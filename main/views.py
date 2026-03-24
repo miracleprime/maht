@@ -5,8 +5,8 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 
 from .models import (
-    Service, Portfolio, ContactInfo,
-    DeliveryInfo, PaymentInfo, TermsInfo, ContentBlock
+    Service, Portfolio, ContactInfo, DeliveryInfo,
+    PaymentInfo, TermsInfo, ContentBlock, SiteSettings
 )
 from .forms import OrderForm
 
@@ -19,7 +19,7 @@ def index(request):
     payment = PaymentInfo.objects.all()
     terms = TermsInfo.objects.all()
     content_blocks = ContentBlock.objects.filter(is_active=True)
-
+    site_settings = SiteSettings.objects.first()
     form = OrderForm()
 
     return render(request, 'main/index.html', {
@@ -30,6 +30,7 @@ def index(request):
         'payment': payment,
         'terms': terms,
         'content_blocks': content_blocks,
+        'site_settings': site_settings,
         'form': form,
     })
 
@@ -52,6 +53,7 @@ def submit_order(request):
         f'Имя: {order.name}',
         f'Телефон: {order.phone}',
     ]
+
     if order.email:
         message_lines.append(f'Email: {order.email}')
     if order.comment:
@@ -66,7 +68,6 @@ def submit_order(request):
             fail_silently=False
         )
     except Exception:
-        # Заявку сохранили — письмо могло не уйти, но это не критично для UI
         return JsonResponse({'success': True, 'mail_sent': False})
 
     return JsonResponse({'success': True, 'mail_sent': True})
