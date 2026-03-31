@@ -3047,3 +3047,236 @@ section[id] {
   margin-top: 100px !important;
 }
 
+/* ===== EQUIPMENT FINAL REFERENCE ===== */
+.equipment-ref-section {
+  background: #f3f4f1;
+  padding: 8px 0 0;
+}
+
+.equipment-ref-section .container {
+  max-width: 1540px;
+  width: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.equipment-section-subtitle {
+  max-width: 760px;
+  margin: 0 auto 10px;
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #6f7782;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.equipment-ref-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.02fr 1fr;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.equipment-ref-grid > * {
+  min-width: 0;
+}
+
+.equipment-ref-left,
+.equipment-ref-right {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.equipment-ref-left {
+  grid-template-rows: 1fr 1fr;
+}
+
+.equipment-ref-center {
+  display: grid;
+  grid-template-rows: 198px 1fr;
+  gap: 6px;
+  min-width: 0;
+}
+
+.equipment-ref-title {
+  background: #f2bf00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 16px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.equipment-ref-title h2 {
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+  font-size: clamp(30px, 3vw, 54px);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.9px;
+  text-transform: uppercase;
+  color: #0f302c;
+  overflow-wrap: anywhere;
+}
+
+.equipment-ref-text {
+  background: #fff;
+  border-left: 1px solid #ead979;
+  border-right: 1px solid #ead979;
+  padding: 34px 46px 30px;
+  text-align: left !important;
+}
+
+.equipment-ref-text p {
+  margin: 0 0 24px;
+  font-size: 17px;
+  line-height: 1.78;
+  font-weight: 400;
+  color: #1d2024;
+  text-align: left !important;
+}
+
+.equipment-ref-text p:last-child {
+  margin-bottom: 0;
+}
+
+.equipment-ref-photo {
+  overflow: hidden;
+  background: #e5e7eb;
+  min-width: 0;
+}
+
+.equipment-ref-photo--top,
+.equipment-ref-photo--bottom {
+  min-height: 350px;
+}
+
+.equipment-ref-photo--tall {
+  min-height: 706px;
+  height: 100%;
+}
+
+.equipment-ref-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+@media (max-width: 1399px) {
+  .equipment-ref-section .container {
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .equipment-ref-grid {
+    grid-template-columns: 1fr 1fr 0.95fr;
+  }
+
+  .equipment-ref-center {
+    grid-template-rows: 176px 1fr;
+  }
+
+  .equipment-ref-title {
+    padding: 16px 14px;
+  }
+
+  .equipment-ref-title h2 {
+    font-size: clamp(28px, 2.7vw, 46px);
+    letter-spacing: -0.7px;
+  }
+
+  .equipment-ref-text {
+    padding: 28px 28px 24px;
+  }
+
+  .equipment-ref-text p {
+    font-size: 16px;
+    line-height: 1.68;
+  }
+
+  .equipment-ref-photo--top,
+  .equipment-ref-photo--bottom {
+    min-height: 300px;
+  }
+
+  .equipment-ref-photo--tall {
+    min-height: 606px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .equipment-ref-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .equipment-ref-left,
+  .equipment-ref-right,
+  .equipment-ref-center {
+    gap: 12px;
+  }
+
+  .equipment-ref-center {
+    grid-template-rows: auto auto;
+  }
+
+  .equipment-ref-title {
+    padding: 22px 18px;
+  }
+
+  .equipment-ref-title h2 {
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+  }
+
+  .equipment-ref-text {
+    padding: 22px 18px;
+    border: 1px solid #ead979;
+  }
+
+  .equipment-ref-photo--top,
+  .equipment-ref-photo--bottom,
+  .equipment-ref-photo--tall {
+    min-height: 260px;
+    height: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .equipment-section-subtitle {
+    font-size: 13px;
+    margin-bottom: 12px;
+    padding: 0 8px;
+  }
+
+  .equipment-ref-title {
+    padding: 18px 12px;
+  }
+
+  .equipment-ref-title h2 {
+    font-size: 28px;
+    line-height: 1.08;
+    letter-spacing: -0.3px;
+  }
+
+  .equipment-ref-text p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .equipment-ref-photo--top,
+  .equipment-ref-photo--bottom,
+  .equipment-ref-photo--tall {
+    min-height: 220px;
+  }
+}

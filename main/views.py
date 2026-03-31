@@ -19,7 +19,7 @@ def index(request):
     payment = PaymentInfo.objects.all()
     terms = TermsInfo.objects.all()
     content_blocks = ContentBlock.objects.filter(is_active=True)
-    site_settings = SiteSettings.objects.first()
+    sitesettings = SiteSettings.objects.first()
     form = OrderForm()
 
     return render(request, 'main/index.html', {
@@ -30,10 +30,11 @@ def index(request):
         'payment': payment,
         'terms': terms,
         'content_blocks': content_blocks,
-        'site_settings': site_settings,
+        'contentblocks': content_blocks,
+        'sitesettings': sitesettings,
+        'site_settings': sitesettings,
         'form': form,
     })
-
 
 @require_POST
 def submit_order(request):

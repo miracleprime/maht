@@ -209,9 +209,16 @@ class SiteSettingsAdmin(admin.ModelAdmin):
                 'services_menu_title', 'services_section_title',
                 'terms_menu_title', 'terms_section_title',
                 'payment_menu_title', 'payment_section_title',
-                'portfolio_menu_title', 'portfolio_section_title', 'portfolio_section_subtitle',
+                'portfolio_menu_title',
                 'delivery_menu_title', 'delivery_section_title',
                 'contact_menu_title', 'contact_section_title',
+            )
+        }),
+        ('Блок оборудования', {
+            'fields': (
+                'portfolio_section_title',
+                'portfolio_section_subtitle',
+                'portfolio_section_text',
             )
         }),
         ('Форма и CTA', {
@@ -235,10 +242,16 @@ class SiteSettingsAdmin(admin.ModelAdmin):
                 'whatsapp_button_text',
             )
         }),
+        ('Схема прохода', {
+            'fields': (
+                'pickup_route_url',
+                'pickup_route_button_text',
+            )
+        }),
+        
     )
 
     def has_add_permission(self, request):
         if SiteSettings.objects.count() >= 1:
             return False
         return super().has_add_permission(request)
-

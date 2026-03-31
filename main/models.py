@@ -271,16 +271,29 @@ class SiteSettings(models.Model):
         default='Оборудование'
     )
     portfolio_section_title = models.CharField(
-        'Заголовок раздела "Портфолио"',
-        max_length=200,
+        'Заголовок блока оборудования',
+        max_length=255,
         blank=True,
-        default='ОБОРУДОВАНИЕ'
+        default='СОБСТВЕННОЕ ПРОИЗВОДСТВО'
     )
     portfolio_section_subtitle = models.CharField(
-        'Подзаголовок раздела "Портфолио"',
+        'Подзаголовок блока оборудования',
         max_length=255,
         blank=True,
         default='Наше оборудование и производственные возможности'
+    )
+    portfolio_section_text = models.TextField(
+        'Текст блока оборудования',
+        blank=True,
+        default=(
+            'Многие клиенты не знают, что большая часть полиграфических компаний '
+            'является посредниками. Они имеют множество центров приема заказов, '
+            'но сами не могут отвечать за качество и сроки. А их клиенты каждый раз '
+            'переплачивают посредническую комиссию.\n\n'
+            'При этом наличие на сайте фото оборудования ничего не значит. '
+            'Хотите отличить посредника от реальной типографии, просто спросите у менеджера: '
+            '«А можно приехать на ваше производство и увидеть, как печатается продукция?»'
+        )
     )
 
     delivery_menu_title = models.CharField(
@@ -362,34 +375,150 @@ class SiteSettings(models.Model):
         blank=True,
         default='Отправить'
     )
+
     footer_text = models.CharField(
         'Текст в подвале',
         max_length=255,
         blank=True,
         default='© 2026 Типография. Все права защищены.'
     )
-
-    portfolio_section_title = models.CharField(
-        "Заголовок блока оборудования",
-        max_length=255,
-        default="СОБСТВЕННОЕ ПРОИЗВОДСТВО"
-    )
-
-    portfolio_section_text = models.TextField(
-        "Текст блока оборудования",
+    
+    pickup_route_url = models.URLField(
+        'Ссылка на схему прохода',
         blank=True,
-        default=(
-            "Многие клиенты не знают, что большая часть полиграфических компаний "
-            "является посредниками. Они имеют множество центров приема заказов, "
-            "но сами не могут отвечать за качество и сроки. А их клиенты каждый раз "
-            "переплачивают посредническую комиссию.\n\n"
-            "При этом наличие на сайте фото оборудования ничего не значит. "
-            "Хотите отличить посредника от реальной типографии, просто спросите у менеджера: "
-            "«А можно приехать на ваше производство и увидеть, как печатается продукция..?»"
-        )
+        default=''
     )
 
+    pickup_route_button_text = models.CharField(
+        'Текст кнопки схемы прохода',
+        max_length=100,
+        blank=True,
+        default='Куда идти — схема прохода'
+    )
 
+    @property
+    def pickuprouteurl(self):
+        return self.pickup_route_url
+
+    @property
+    def pickuproutebuttontext(self):
+        return self.pickup_route_button_text
+
+
+
+
+    
+    @property
+    def sitename(self):
+        return self.site_name
+
+    @property
+    def herobadge(self):
+        return self.hero_badge
+
+    @property
+    def heroprimarybutton(self):
+        return self.hero_primary_button
+
+    @property
+    def herosecondarybutton(self):
+        return self.hero_secondary_button
+
+    @property
+    def servicesmenutitle(self):
+        return self.services_menu_title
+
+    @property
+    def servicessectiontitle(self):
+        return self.services_section_title
+
+    @property
+    def termsmenutitle(self):
+        return self.terms_menu_title
+
+    @property
+    def termssectiontitle(self):
+        return self.terms_section_title
+
+    @property
+    def paymentmenutitle(self):
+        return self.payment_menu_title
+
+    @property
+    def paymentsectiontitle(self):
+        return self.payment_section_title
+
+    @property
+    def portfoliomenutitle(self):
+        return self.portfolio_menu_title
+
+    @property
+    def portfoliosectiontitle(self):
+        return self.portfolio_section_title
+
+    @property
+    def portfoliosectionsubtitle(self):
+        return self.portfolio_section_subtitle
+
+    @property
+    def portfoliosectiontext(self):
+        return self.portfolio_section_text
+
+    @property
+    def deliverymenutitle(self):
+        return self.delivery_menu_title
+
+    @property
+    def deliverysectiontitle(self):
+        return self.delivery_section_title
+
+    @property
+    def contactmenutitle(self):
+        return self.contact_menu_title
+
+    @property
+    def contactsectiontitle(self):
+        return self.contact_section_title
+
+    @property
+    def contactformtitle(self):
+        return self.contact_form_title
+
+    @property
+    def consenttext(self):
+        return self.consent_text
+
+    @property
+    def submitbuttontext(self):
+        return self.submit_button_text
+
+    @property
+    def telegramurl(self):
+        return self.telegram_url
+
+    @property
+    def telegrambuttontext(self):
+        return self.telegram_button_text
+
+    @property
+    def whatsappurl(self):
+        return self.whatsapp_url
+
+    @property
+    def whatsappbuttontext(self):
+        return self.whatsapp_button_text
+
+    @property
+    def modaltitle(self):
+        return self.modal_title
+
+    @property
+    def modalsubmitbuttontext(self):
+        return self.modal_submit_button_text
+
+    @property
+    def footertext(self):
+        return self.footer_text
     class Meta:
         verbose_name = 'Настройки сайта'
         verbose_name_plural = 'Настройки сайта'
